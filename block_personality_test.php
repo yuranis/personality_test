@@ -1,8 +1,10 @@
 <?php
 
-class block_personality_test extends block_base {
+class block_personality_test extends block_base
+{
 
-    function init() {
+    function init()
+    {
         $this->title = get_string('pluginname', 'block_personality_test');
     }
 
@@ -10,7 +12,8 @@ class block_personality_test extends block_base {
         return false;
     }*/
 
-    function instance_allow_multiple() {
+    function instance_allow_multiple()
+    {
         return false;
     }
 
@@ -18,9 +21,10 @@ class block_personality_test extends block_base {
         return false;
     }*/
 
-    function get_content() {
+    function get_content()
+    {
 
-        global $OUTPUT,$CFG, $DB, $USER, $COURSE,$SESSION;
+        global $OUTPUT, $CFG, $DB, $USER, $COURSE, $SESSION;
 
         if ($COURSE->id == SITEID) {
             return;
@@ -38,10 +42,10 @@ class block_personality_test extends block_base {
             return $this->content;
         }
 
-        if( !isloggedin() ){
+        if (!isloggedin()) {
             return;
         }
-        
+
         /*$redirect = new moodle_url('/blocks/personality_test/view.php', array('cid' => $COURSE->id));
         redirect($redirect);*/
 
@@ -58,28 +62,32 @@ class block_personality_test extends block_base {
             //check if user already have the learning style
             $entry = $DB->get_record('personality_test', array('user' => $USER->id, 'course' => $COURSE->id));
             if (!$entry) {
-                if( isset($this->config->personality_test_content) && isset($this->config->personality_test_content["text"]) ){
+                if (isset($this->config->personality_test_content) && isset($this->config->personality_test_content["text"])) {
                     $SESSION->personality_test = $this->config->personality_test_content["text"];
                     $redirect = new moodle_url('/blocks/personality_test/view.php', array('cid' => $COURSE->id));
                     redirect($redirect);
                 }
-            }else{
-                $this->content->text = "<br><img src='".$OUTPUT->pix_url('ok', 'block_personality_test')."'>".get_string('accept_message', 'block_personality_test');
-                $this->content->text .= "<br><br>Activo Reflexivo: ".$entry->act_ref;
-                $this->content->text .= "<br>Sensitivo Intuitivo: ".$entry->sen_int;
-                $this->content->text .= "<br>Visual Verbal: ".$entry->vis_vrb;
-                $this->content->text .= "<br>Secuencial Global: ".$entry->seq_glo;
+            } else {
+                $personality_result = array(
+                    "Extraversion" => $entry->extraversion, "Introversion" => $entry->introversion,
+                    "Sensing" => $entry->sensing, "Intuition" => $entry->intuition, 
+                    "Thinking" => $entry->thinking, "Feeling" => $entry->feeling,
+                    "Judging" => $entry->judging, "Perceptive" => $entry->perceptive
+                );
+                arsort($personality_result);
+                $personality_result = array_slice($personality_result, 0, 4);
+                $this->content->text = "<br><img src='" . $OUTPUT->pix_url('ok', 'block_personality_test') . "'>" . get_string('accept_message', 'block_personality_test')."<br>";
+                foreach ($personality_result as $key => $value){
+                    $this->content->text .= "<br>" . $key . " " . $value;
+                }
             }
-        }else{
-            if( isset($this->config->personality_test_content) && isset($this->config->personality_test_content["text"]) ){
-                $this->content->text = "<img src='".$OUTPUT->pix_url('ok', 'block_personality_test')."'>".get_string('personality_test_actived', 'block_personality_test');
-            }else{
-                $this->content->text = "<img src='".$OUTPUT->pix_url('warning', 'block_personality_test')."'>".get_string('personality_test_configempty', 'block_personality_test');
+        } else {
+            if (isset($this->config->personality_test_content) && isset($this->config->personality_test_content["text"])) {
+                $this->content->text = "<img src='" . $OUTPUT->pix_url('ok', 'block_personality_test') . "'>" . get_string('personality_test_actived', 'block_personality_test');
+            } else {
+                $this->content->text = "<img src='" . $OUTPUT->pix_url('warning', 'block_personality_test') . "'>" . get_string('personality_test_configempty', 'block_personality_test');
             }
         }
         return $this->content;
-        
     }
-
 }
-

@@ -6,25 +6,23 @@ require_login();
 $courseid = optional_param('cid', 0, PARAM_INT);
 $personality_test_a = array();
 
-$act_ref_eval = [1,5,9,13,17,21,25,29,33,37,41];
-$act_ref["a"] = 0;
-$act_ref["b"] = 0;
-$act_ref["result"] = "";
+$extra = [5,7,10,13,23,25,6168,71];
+$intra = [2,9,49,54,63,65,67,69,72];
+$sensi = [15,45,45,51,53,56,59,66,70];
+$intui = [37,39,41,44,47,52,57,62,64];
+$ratio = [1,4,6,18,20,48,50,55,58];
+$emoti = [3,8,11,14,27,31,33,35,40];
+$estru = [19,21,24,26,29,34,36,42,46];
+$perce = [12,16,17,22,28,30,32,38,60];
 
-$sen_int_eval = [2,6,10,14,18,22,26,30,34,38,42];
-$sen_int["a"] = 0;
-$sen_int["b"] = 0;
-$sen_int["result"] = "";
-
-$vis_vrb_eval = [3,7,11,15,19,23,27,31,35,39,43];
-$vis_vrb["a"] = 0;
-$vis_vrb["b"] = 0;
-$vis_vrb["result"] = "";
-
-$seq_glo_eval = [4,8,12,16,20,24,28,32,36,40,44];
-$seq_glo["a"] = 0;
-$seq_glo["b"] = 0;
-$seq_glo["result"] = "";
+$extra_res = 0;
+$intra_res = 0;
+$sensi_res = 0;
+$intui_res = 0;
+$ratio_res = 0;
+$emoti_res = 0;
+$estru_res = 0;
+$perce_res = 0;
 
 for ($i=1;$i<=72;$i++){
     $personality_test_a[$i] = optional_param("personality_test:q".$i, 0, PARAM_INT);
@@ -32,80 +30,34 @@ for ($i=1;$i<=72;$i++){
 
 //var_dump($personality_test_a);
 
+foreach($extra as $index => $value){
+    $extra_res = $extra_res + $personality_test_a[$value];
+}
+foreach($intra as $index => $value){
+    $intra_res = $intra_res + $personality_test_a[$value];
+}
+foreach($sensi as $index => $value){
+    $sensi_res = $sensi_res + $personality_test_a[$value];
+}
+foreach($intui as $index => $value){
+    $intui_res = $intui_res + $personality_test_a[$value];
+}
+foreach($ratio as $index => $value){
+    $ratio_res = $ratio_res + $personality_test_a[$value];
+}
+foreach($emoti as $index => $value){
+    $emoti_res = $emoti_res + $personality_test_a[$value];
+}
+foreach($estru as $index => $value){
+    $estru_res = $estru_res + $personality_test_a[$value];
+}
+foreach($perce as $index => $value){
+    $perce_res = $perce_res + $personality_test_a[$value];
+}
+//echo "$extra_res -- $intra_res -- $sensi_res -- $intui_res -- $ratio_res -- $emoti_res -- $estru_res -- $perce_res";
+
 if ($courseid == SITEID && !$courseid) {
     redirect($CFG->wwwroot);
-}
-
-/**
-* Evaluando Activo Reflexivo
-*/
-foreach($act_ref_eval as $item){
-    //echo "Evaluando item $item";
-    if ($personality_test_a[$item] == 0){
-        $act_ref["a"]++;
-    }else{
-        $act_ref["b"]++;
-    }
-}
-
-if ($act_ref["a"]>$act_ref["b"]) {
-    $act_ref["result"] = ($act_ref["a"]-$act_ref["b"])."a";
-}else{
-    $act_ref["result"] = ($act_ref["b"]-$act_ref["a"])."b";
-}
-
-/**
-* Evaluando Sensitivo Intuitivo
-*/
-foreach($sen_int_eval as $item){
-    //echo "Evaluando item $item";
-    if ($personality_test_a[$item] == 0){
-        $sen_int["a"]++;
-    }else{
-        $sen_int["b"]++;
-    }
-}
-
-if ($sen_int["a"]>$sen_int["b"]) {
-    $sen_int["result"] = ($sen_int["a"]-$sen_int["b"])."a";
-}else{
-    $sen_int["result"] = ($sen_int["b"]-$sen_int["a"])."b";
-}
-
-/**
-* Evaluando Visual Verbal
-*/
-foreach($vis_vrb_eval as $item){
-    //echo "Evaluando item $item";
-    if ($personality_test_a[$item] == 0){
-        $vis_vrb["a"]++;
-    }else{
-        $vis_vrb["b"]++;
-    }
-}
-
-if ($vis_vrb["a"]>$vis_vrb["b"]) {
-    $vis_vrb["result"] = ($vis_vrb["a"]-$vis_vrb["b"])."a";
-}else{
-    $vis_vrb["result"] = ($vis_vrb["b"]-$vis_vrb["a"])."b";
-}
-
-/**
-* Evaluando Secuencial Global
-*/
-foreach($seq_glo_eval as $item){
-    //echo "Evaluando item $item";
-    if ($personality_test_a[$item] == 0){
-        $seq_glo["a"]++;
-    }else{
-        $seq_glo["b"]++;
-    }
-}
-
-if ($seq_glo["a"]>$seq_glo["b"]) {
-    $seq_glo["result"] = ($seq_glo["a"]-$seq_glo["b"])."a";
-}else{
-    $seq_glo["result"] = ($seq_glo["b"]-$seq_glo["a"])."b";
 }
 
 /*
@@ -123,7 +75,7 @@ echo "----- ".$seq_glo["result"]." -----";
 */
 $redirect = new moodle_url('/course/view.php', array('id'=>$courseid));
 
-if(save_personality_test($courseid,$act_ref["result"],$sen_int["result"],$vis_vrb["result"],$seq_glo["result"])){
+if(save_personality_test($courseid,$extra_res,$intra_res,$sensi_res,$intui_res,$ratio_res,$emoti_res,$estru_res,$perce_res)){
     redirect($redirect, get_string('redirect_accept_success', 'block_personality_test') );
 }else{
     redirect($redirect, get_string('redirect_accept_exist', 'block_personality_test') );
