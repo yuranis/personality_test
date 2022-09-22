@@ -6,7 +6,7 @@ require_login();
 $courseid = optional_param('cid', 0, PARAM_INT);
 $personality_test_a = array();
 
-$extra = [5,7,10,13,23,25,6168,71];
+$extra = [5,7,10,13,23,25,61,68,71];
 $intra = [2,9,49,54,63,65,67,69,72];
 $sensi = [15,45,45,51,53,56,59,66,70];
 $intui = [37,39,41,44,47,52,57,62,64];
@@ -28,7 +28,7 @@ for ($i=1;$i<=72;$i++){
     $personality_test_a[$i] = optional_param("personality_test:q".$i, 0, PARAM_INT);
 }
 
-//var_dump($personality_test_a);
+var_dump($personality_test_a);
 
 foreach($extra as $index => $value){
     $extra_res = $extra_res + $personality_test_a[$value];
@@ -60,12 +60,6 @@ if ($courseid == SITEID && !$courseid) {
     redirect($CFG->wwwroot);
 }
 
-/*
-echo "----- ".$act_ref["result"]." -----";
-echo "----- ".$sen_int["result"]." -----";
-echo "----- ".$vis_vrb["result"]." -----";
-echo "----- ".$seq_glo["result"]." -----";
-*/
 
 /*if( $accept != 1 ){
     //No accept, redirect
