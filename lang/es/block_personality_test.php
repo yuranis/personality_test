@@ -216,7 +216,7 @@ $string["personality_test:q50_b"] = "no.";
 
 $string["personality_test:q51"] = "Encuentra más fácil ver los árboles que el bosque;es feliz de concentrarse en su trabajo y no se preocupa acerca de cómo encaja éste en un esquema más amplio";
 $string["personality_test:q51_a"] = "si.";
-$string["personality_test:q51_b"] = "nol.";
+$string["personality_test:q51_b"] = "no.";
 
 $string["personality_test:q52"] = "Tiene inclinación a las chanzas y los juegos de palabras.	";
 $string["personality_test:q52_a"] = "si.";
