@@ -28,7 +28,7 @@ for ($i=1;$i<=72;$i++){
     $personality_test_a[$i] = optional_param("personality_test:q".$i, 0, PARAM_INT);
 }
 
-var_dump($personality_test_a);
+//var_dump($personality_test_a);
 
 foreach($extra as $index => $value){
     $extra_res = $extra_res + $personality_test_a[$value];
