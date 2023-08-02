@@ -30,8 +30,16 @@ $PAGE->set_heading($title." : ".$course->fullname);
 
 echo $OUTPUT->header();
 echo $OUTPUT->box_start('generalbox');
-echo "<h1 class='title_personality_test'>".$title ."</h1>";
-echo "<div class='content_personality_test'>".$SESSION->honorcodetext."</div>";
+echo "<h1 class='title_personality_test'>Ahora, vamos a conocer los rasgos de tu personalidad.</h1>";
+echo "
+<div>
+Este test consiste en unas preguntas sobre tus preferencias de aprendizaje, 
+intereses y gustos. Al completar el test, el sistema 
+comprenderá mejor tus necesidades, preferencias e intereses, reflejandose en una mejor 
+personalización de los recursos de aprendizaje en las próximas semanas.
+</div>
+<br>
+";
 $action_form = new moodle_url('/blocks/personality_test/save.php');
 ?>
 
@@ -44,7 +52,6 @@ $action_form = new moodle_url('/blocks/personality_test/save.php');
         <ol class="personality_test_q">
         <?php for ($i=1;$i<=72;$i++){ ?>
         
-
         <li class="personality_test_item"><?php echo get_string("personality_test:q".$i, 'block_personality_test') ?>
         <select name="personality_test:q<?php echo $i; ?>" required>
             <option value="" disabled selected hidden>Selecciona</option>
